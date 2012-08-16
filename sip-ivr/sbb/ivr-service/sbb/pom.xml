@@ -1,0 +1,57 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
+    	<modelVersion>4.0.0</modelVersion>
+
+    	<parent>
+		<artifactId>mobi4d-resource-ivr-service-parent</artifactId>
+		<groupId>za.co.csir.meraka.mobi4d.resources</groupId>
+		<version>0.0.2-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>mobi4d-resource-ivr-service-sbb</artifactId>
+	
+
+	<name>Mobi4D:Core:Resources:Ivr:Sbb:Sbb</name>
+	<description>Mobi4D Core Resources Ivr</description>
+	    
+    <dependencies>
+       <!-- local deps -->
+		<dependency>
+			<artifactId>mobi4d-resource-ivr-service-library</artifactId>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- RA deps -->
+	    <dependency>	
+		    <artifactId>mgcp-ratype</artifactId>
+		    <groupId>org.mobicents.resources</groupId>
+		    <version>${ra-mgcp.version}</version>
+	    </dependency>        
+	    <dependency>
+		    <groupId>org.mobicents.resources</groupId>
+		    <artifactId>sip11-ratype</artifactId>
+		    <version>${ra-sip.version}</version>
+		</dependency>
+						 
+    <!--  Dependencies to child SBBs MENU-->
+		<dependency>
+			<groupId>za.co.csir.meraka.mobi4d.resources</groupId>
+			<artifactId>mobi4d-resource-menu-service-sbb</artifactId>
+			<version>0.0.2-SNAPSHOT</version>					
+		</dependency>
+		<!--  compile-time dependencies to Weather-Service classes for creating requests-->		
+		<dependency>
+			<artifactId>mobi4d-agnostic-weather-service-sbb</artifactId>
+			<groupId>za.co.csir.meraka.mobi4d.agnostic.sbb</groupId>
+			<version>0.0.2-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>za.co.csir.meraka.mobi4d.libraries</groupId>
+			<artifactId>mobi4d-library-util</artifactId>
+			<version>0.0.2-SNAPSHOT</version>		
+		</dependency>
+		
+    </dependencies>	 
+    
+</project>

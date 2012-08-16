@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sbb-jar PUBLIC "-//Sun Microsystems, Inc.//DTD JAIN SLEE SBB 1.1//EN"
+                         "http://java.sun.com/dtd/slee-sbb-jar_1_1.dtd">
+<sbb-jar>
+	<sbb id="callsbb">
+		<description>Represents the Automated Smartline Interactive Voice Response System</description>
+		<sbb-name>IVRSbb</sbb-name>
+		<sbb-vendor>za.co.csir.meraka.mobi4d.resources</sbb-vendor>
+		<sbb-version>0.0.2-SNAPSHOT</sbb-version>
+		<sbb-alias>IVRSbb</sbb-alias>
+
+
+		<library-ref>
+        	<library-name>ivr-service</library-name>
+			<library-vendor>za.co.csir.meraka.mobi4d.resources</library-vendor>
+			<library-version>0.0.2-SNAPSHOT</library-version>
+        </library-ref> 
+                 
+       <!-- This Sbb also refers to the following Sbb [Menu SBB]-->
+        <sbb-ref>
+			<sbb-name>Mobi4D resource-menu SBB</sbb-name>
+			<sbb-vendor>za.co.csir.meraka.mobi4d.resource.sbb</sbb-vendor>
+			<sbb-version>0.0.2-SNAPSHOT</sbb-version>
+			<sbb-alias>MenuChildSbb</sbb-alias>
+		</sbb-ref>
+				
+		<sbb-classes>
+			<sbb-abstract-class>
+				<sbb-abstract-class-name>
+					za.co.csir.meraka.mobi4d.resource.sbb.ivr_service.IVRSbb
+				</sbb-abstract-class-name>
+				<cmp-field>
+					<cmp-field-name>
+						connectionIdentifier
+					</cmp-field-name>
+				</cmp-field>
+				<cmp-field>
+					<cmp-field-name>callIdentifier</cmp-field-name>
+				</cmp-field>
+				<cmp-field>
+					<cmp-field-name>remoteSdp</cmp-field-name>
+				</cmp-field>
+				<cmp-field>
+					<cmp-field-name>endpointName</cmp-field-name>
+				</cmp-field>
+				
+				<cmp-field>
+					<cmp-field-name>timerID</cmp-field-name>
+				</cmp-field>
+				<cmp-field>
+					<cmp-field-name>bye</cmp-field-name>
+				</cmp-field>
+				
+				<!--  This field carries the ID of the caller, the From-field of the incoming SIP call[Invite] -->
+				<cmp-field>
+				    <cmp-field-name>callerId</cmp-field-name>
+				</cmp-field>
+				
+				<!--  This field is used to record the entire call's navigation -->
+				<cmp-field>
+				    <cmp-field-name>callHistory</cmp-field-name>
+				</cmp-field>
+				<cmp-field>
+				    <!-- This CMP field carries the user's position on the navigation menu as trail -->
+					<cmp-field-name>navigationCode</cmp-field-name>
+				</cmp-field>
+				<cmp-field>
+				    <!-- This CMP field carries the user's position on the navigation menu as trail -->
+					<cmp-field-name>lastInput</cmp-field-name>
+				</cmp-field>
+				
+				<cmp-field>
+				    <!-- This boolean CMP field indicates whether the last User input resulted in an error
+				         Before sending signal-request to Media Gateway, if this field is True, then
+				         no DTMF events should be requested. The previous menu option would need to be played back
+				         after the error!
+				    -->
+					<cmp-field-name>lastInputError</cmp-field-name>
+				</cmp-field> 
+				<cmp-field>
+				    <!-- Workaround for DTMF delay -->
+					<cmp-field-name>acceptKeyPress</cmp-field-name>
+				</cmp-field>
+				
+             	<cmp-field>
+                	<cmp-field-name>menuSbbLocalObjectInterface</cmp-field-name>
+					<sbb-alias-ref>MenuChildSbb</sbb-alias-ref>
+             	</cmp-field>
+               
+               <cmp-field>
+                	<cmp-field-name>nullActivity</cmp-field-name>
+                </cmp-field>
+             <!-- This child-relation-method needs to be defined and is used when calling SYNCHRONOUS FUNCTIONS on other SBBs
+                  OR forwarding events to other SBBs
+             -->
+                <!-- Remove for MTech demo --> 
+	            				
+				<get-child-relation-method> 
+					<sbb-alias-ref>MenuChildSbb</sbb-alias-ref> 
+            		<get-child-relation-method-name>getMenuSbbChildRelation</get-child-relation-method-name>			
+            		<default-priority>0</default-priority>
+        		</get-child-relation-method>
+        						
+			</sbb-abstract-class>
+
+			<sbb-local-interface> 
+	            <description> This is the IVR SBB Local Interface </description>               
+                <sbb-local-interface-name>
+				za.co.csir.meraka.mobi4d.resource.sbb.ivr_service.IvrSbbLocalInterface
+		    	</sbb-local-interface-name>	                	
+           </sbb-local-interface>	   
+		</sbb-classes>
+
+        <event event-direction="Receive" initial-event="True">
+			<event-name>ServiceStarted</event-name>
+			<event-type-ref>
+				<event-type-name>javax.slee.serviceactivity.ServiceStartedEvent</event-type-name>
+				<event-type-vendor>javax.slee</event-type-vendor>
+				<event-type-version>1.1</event-type-version>
+			</event-type-ref>
+			<initial-event-select variable="ActivityContext" />
+		</event>
+		
+		<event event-direction="Receive" initial-event="False">
+			<event-name>TimerEvent</event-name>
+			<event-type-ref>
+				<event-type-name>
+					javax.slee.facilities.TimerEvent
+				</event-type-name>
+				<event-type-vendor>javax.slee</event-type-vendor>
+				<event-type-version>1.0</event-type-version>
+			</event-type-ref>
+		</event>
+
+		<event event-direction="Receive" initial-event="True">
+			<event-name>CallCreated</event-name>
+			<event-type-ref>
+				<event-type-name>
+					javax.sip.message.Request.INVITE
+				</event-type-name>
+				<event-type-vendor>net.java.slee</event-type-vendor>
+				<event-type-version>1.2</event-type-version>
+			</event-type-ref>
+			<initial-event-select variable="ActivityContext" />
+		</event>
+		<event event-direction="Receive" initial-event="False">
+			<event-name>CallTerminated</event-name>
+			<event-type-ref>
+				<event-type-name>javax.sip.Dialog.BYE</event-type-name>
+				<event-type-vendor>net.java.slee</event-type-vendor>
+				<event-type-version>1.2</event-type-version>
+			</event-type-ref>
+		</event>
+
+		<event event-direction="Receive" initial-event="False">
+			<event-name>CreateConnectionResponse</event-name>
+			<event-type-ref>
+				<event-type-name>
+					net.java.slee.resource.mgcp.CREATE_CONNECTION_RESPONSE
+				</event-type-name>
+				<event-type-vendor>net.java</event-type-vendor>
+				<event-type-version>1.0</event-type-version>
+			</event-type-ref>
+		</event>
+
+		<event event-direction="Receive" initial-event="False">
+			<event-name>NotificationRequestResponse</event-name>
+			<event-type-ref>
+				<event-type-name>
+					net.java.slee.resource.mgcp.NOTIFICATION_REQUEST_RESPONSE
+				</event-type-name>
+				<event-type-vendor>net.java</event-type-vendor>
+				<event-type-version>1.0</event-type-version>
+			</event-type-ref>
+		</event>
+
+		<event event-direction="Receive" initial-event="False">
+			<event-name>NotifyRequest</event-name>
+			<event-type-ref>
+				<event-type-name>
+					net.java.slee.resource.mgcp.NOTIFY
+				</event-type-name>
+				<event-type-vendor>net.java</event-type-vendor>
+				<event-type-version>1.0</event-type-version>
+			</event-type-ref>
+		</event>
+		<!-- MTech Demo -->
+		
+		<event event-direction="Receive" initial-event="False">
+		<event-name>WeatherResponseEvent</event-name>
+        <event-type-ref>
+			<event-type-name>za.co.csir.meraka.mobi4d.agnostic.weather.WeatherServiceResponseEvent</event-type-name>
+        	<event-type-vendor>za.co.csir.meraka.mobi4d.agnostic.sbb</event-type-vendor>
+        	<event-type-version>0.0.2-SNAPSHOT</event-type-version>
+		</event-type-ref>
+        <initial-event-select variable="ActivityContext"/>
+ 	   </event>
+ 	
+		<event event-direction="Fire">
+		<event-name>WeatherRequestEvent</event-name>
+        <event-type-ref>
+			<event-type-name>za.co.csir.meraka.mobi4d.agnostic.weather.WeatherServiceRequestEvent</event-type-name>
+        	<event-type-vendor>za.co.csir.meraka.mobi4d.agnostic.sbb</event-type-vendor>
+        	<event-type-version>0.0.2-SNAPSHOT</event-type-version>
+		</event-type-ref>
+        </event>
+        	
+		<!-- event type ref is a reference to the define SBB/RA event type 
+		     The type-name, as described in the event-xml, it's groupID/vendor and version
+		-->
+                
+        <!-- This is for the Menu SBB  -->
+        <env-entry>
+        	<description>Default Menu</description>
+        	<env-entry-name>defaultMenu</env-entry-name>
+        	<env-entry-type>java.lang.String</env-entry-type>
+        	<env-entry-value>1</env-entry-value>
+        </env-entry>
+       
+		<resource-adaptor-type-binding>
+			<resource-adaptor-type-ref>
+				<resource-adaptor-type-name>
+					JAIN SIP
+				</resource-adaptor-type-name>
+				<resource-adaptor-type-vendor>
+					javax.sip
+				</resource-adaptor-type-vendor>
+				<resource-adaptor-type-version>
+					1.2
+				</resource-adaptor-type-version>
+			</resource-adaptor-type-ref>
+			<activity-context-interface-factory-name>
+				slee/resources/jainsip/1.2/acifactory
+			</activity-context-interface-factory-name>
+			<resource-adaptor-entity-binding>
+				<resource-adaptor-object-name>
+					slee/resources/jainsip/1.2/provider
+				</resource-adaptor-object-name>
+				<resource-adaptor-entity-link>
+					SipRA
+				</resource-adaptor-entity-link>
+			</resource-adaptor-entity-binding>
+		</resource-adaptor-type-binding>
+		<resource-adaptor-type-binding>
+			<resource-adaptor-type-ref>
+				<resource-adaptor-type-name>
+					jain-mgcp
+				</resource-adaptor-type-name>
+				<resource-adaptor-type-vendor>
+					net.java
+				</resource-adaptor-type-vendor>
+				<resource-adaptor-type-version>
+					2.0
+				</resource-adaptor-type-version>
+			</resource-adaptor-type-ref>
+			<activity-context-interface-factory-name>
+				slee/resources/jainmgcp/2.0/acifactory/demo
+			</activity-context-interface-factory-name>
+			<resource-adaptor-entity-binding>
+				<resource-adaptor-object-name>
+					slee/resources/jainmgcp/2.0/provider/demo
+				</resource-adaptor-object-name>
+				<resource-adaptor-entity-link>
+					MGCPRA
+				</resource-adaptor-entity-link>
+			</resource-adaptor-entity-binding>
+		</resource-adaptor-type-binding>
+	</sbb>
+</sbb-jar>

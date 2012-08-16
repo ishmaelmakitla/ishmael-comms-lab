@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">	
+	
+	<modelVersion>4.0.0</modelVersion>
+	
+	<packaging>jainslee-library</packaging>
+
+	<parent>
+		<artifactId>mobi4d-resource-ivr-service-parent</artifactId>
+		<groupId>za.co.csir.meraka.mobi4d.resources</groupId>
+		<version>0.0.2-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>mobi4d-resource-ivr-service-library</artifactId>
+
+	<name>Mobi4D:Core:Resources:Ivr:Sbb:library</name>
+	<description>Mobi4D Core Resources library</description>
+	
+	<dependencies>
+		<!-- here goes list of jars that build library, for instance junit, this should be harmles -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.1</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>za.co.csir.meraka.mobi4d.agnostic.sbb</groupId>
+			<artifactId>mobi4d-agnostic-weather-service-library</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+			<scope>provided</scope>			
+		</dependency>
+		
+		<dependency>
+			<groupId>za.co.csir.meraka.mobi4d.libraries</groupId>
+			<artifactId>mobi4d-library-util</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+			<scope>provided</scope>				
+		</dependency>
+		
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.mobicents.tools</groupId>
+				<artifactId>maven-library-plugin</artifactId>
+				<version>1.0.0.BETA1</version>
+				<extensions>true</extensions>
+				<configuration>
+					<library-name>ivr-service</library-name>
+					<library-vendor>za.co.csir.meraka.mobi4d.resources</library-vendor>
+					<library-version>0.0.2-SNAPSHOT</library-version>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>

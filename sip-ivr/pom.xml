@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>za.co.csir.meraka.mobi4d</groupId>
+		<artifactId>mobi4d-parent</artifactId>
+		<version>0.0.2-SNAPSHOT</version>
+	</parent>
+
+	<packaging>pom</packaging>
+	
+	<groupId>za.co.csir.meraka.mobi4d.resources</groupId>
+	<artifactId>mobi4d-resource-ivr</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
+	
+	<name>Mobi4D:Core:Resources:Ivr</name>
+	<description>Mobi4D Core Resources Ivr</description>
+
+	<contributors>
+		<contributor>
+			<name>JP Tolmay</name>
+			<organization>CSIR</organization>
+			<organizationUrl>http://www.csir.co.za</organizationUrl>
+			<email>jtolmay@csir.co.za</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</contributor>
+
+		<contributor>
+			<name>Ishmael Makitla</name>
+			<organization>CSIR</organization>
+			<organizationUrl>http://www.csir.co.za</organizationUrl>
+			<email>imakitla@csir.co.za</email>
+			<roles>
+				<role>Researcher - Developer</role>
+			</roles>
+		</contributor>
+	</contributors>
+	
+	<scm>
+		<connection>scm:svn:http://goblin.meraka.csir.co.za/svn_repos/main/mobi4d.gen2/trunk/core/resources/ivr</connection>
+		<developerConnection>scm:svn:http://goblin.meraka.csir.co.za/svn_repos/main/mobi4d.gen2/trunk/core/resources/ivr</developerConnection>
+		<url>http://goblin.meraka.csir.co.za/svn_repos/main/mobi4d.gen2/trunk/core/resources/ivr</url>
+	</scm>
+
+	<modules>			
+		<module>sbb/ivr-service</module>		
+	</modules>	
+				
+	<profiles>
+		<profile>
+			<id>maven-release</id>
+			<modules>
+				<module>docs</module>	
+			</modules>
+			<build>
+				<plugins>
+					<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<configuration>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+						<tagBase>http://goblin.meraka.csir.co.za/svn_repos/main/mobi4d.gen2/trunk/core/resources/aaa</tagBase>
+						<preparationGoals>clean install</preparationGoals>
+					</configuration>
+					</plugin>
+				</plugins>
+			</build>		
+		</profile>
+	</profiles>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+   				<groupId>org.mobicents.tools</groupId>
+				<inherited>false</inherited>
+				<executions />
+				<configuration>
+					<excludePoms />
+					<classpathExcludes>
+						<exclude>xml-apis:xml-apis</exclude>
+						<exclude>jtidy:jtidy</exclude>																		
+					</classpathExcludes>
+					<resolveTransitiveDependencies>true</resolveTransitiveDependencies>
+					<eclipseProjectName>mobicents-slee-core</eclipseProjectName>
+				</configuration>
+			</plugin>
+		</plugins>		
+	</build>
+	
+	<!-- dupe info from parent, but it's only way to retrieve the parent without checkout -->
+
+	<repositories>
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+	
+</project>
